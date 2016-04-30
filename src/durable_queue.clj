@@ -398,8 +398,8 @@
   (let [queue->file (->> directory
                       io/file
                       .listFiles
-                      (filter #(re-find #"\w+_\d+" (.getName ^File %)))
-                      (group-by #(second (re-find #"(\w+)_\d+" (.getName ^File %)))))]
+                      (filter #(re-find #"\S+_\d+" (.getName ^File %)))
+                      (group-by #(second (re-find #"(\S+)_\d+" (.getName ^File %)))))]
     (zipmap
       (keys queue->file)
       (map
