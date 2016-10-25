@@ -8,11 +8,18 @@
   :profiles {:dev {:dependencies [[org.clojure/clojure "1.5.1"]
                                   [criterium "0.4.3"]
                                   [codox-md "0.2.0" :exclusions [org.clojure/clojure]]]}}
+
+  :repositories  {"semion" {:url "s3p://semion-repos/releases/"
+                            :username :env/s3_username ;; gets environment variable AWS_ACCESS_KEY
+                            :passphrase :env/s3_passphrase ;; gets environment variables AWS_SECRET_KEY
+                            }}
   :global-vars {*warn-on-reflection* true}
   :test-selectors {:default #(not (some #{:benchmark :stress} (keys %)))
                    :benchmark :benchmark
                    :stress :stress}
-  :plugins [[codox "0.6.6"]]
+  :plugins [[codox "0.6.6"]
+            [s3-wagon-private "1.2.0"]]
+
   :codox {:writer codox-md.writer/write-docs
           :include [durable-queue]}
   :jvm-opts ^:replace ["-server" "-Xmx100m"])
